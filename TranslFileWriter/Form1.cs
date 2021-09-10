@@ -62,7 +62,7 @@ namespace TranslFileWriter
         private void writeButton_Click(object sender, EventArgs e)
         {
 
-
+            //Check if file exists
             if (File.Exists(readFromTextBox.Text) && File.Exists(writeToTextBox.Text))
             {
                 //Read just in case user didint press
@@ -77,6 +77,7 @@ namespace TranslFileWriter
                 //Write to new File 
                 createNewFile(WriteTo);
             }
+            //If both files are written, but path is incorrect
             else
             {
                 if (readFromTextBox.Text == "" || writeToTextBox.Text == "")
