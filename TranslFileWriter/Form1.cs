@@ -21,6 +21,8 @@ namespace TranslFileWriter
         }
 
         public string path;
+        public bool read1Path = false;
+        public bool read2Path = false;
         public TranslationStructureClass WriteTo = new TranslationStructureClass();
         public TranslationStructureClass WriteFrom = new TranslationStructureClass();
 
@@ -60,8 +62,14 @@ namespace TranslFileWriter
         private void writeButton_Click(object sender, EventArgs e)
         {
 
-            if (readFromTextBox.Text != "" && writeToTextBox.Text != "")
+
+            if (File.Exists(readFromTextBox.Text) && File.Exists(writeToTextBox.Text))
             {
+                //Read just in case user didint press
+                if (read1Path == false)
+                readPathBox1File();
+                if (read1Path == false)
+                readPathBox2File();
                 //read Document
                 readFromTranslationFile();
                 //Write option Translations
@@ -71,14 +79,29 @@ namespace TranslFileWriter
             }
             else
             {
-                MessageBox.Show("Please select file paths!");   
+                if (readFromTextBox.Text == "" || writeToTextBox.Text == "")
+                {
+                    MessageBox.Show("Please enter paths");
+                }
+                else if (!File.Exists(readFromTextBox.Text) && !File.Exists(writeToTextBox.Text))
+                {
+                    MessageBox.Show("Both paths doesn't exist");
+                    readFromTextBox.Text = "";
+                    writeToTextBox.Text = "";
+                }
+                else if (!File.Exists(writeToTextBox.Text))
+                {
+                    MessageBox.Show("File to write to path doesnt exist");
+                    writeToTextBox.Text = "";
+                }
+                else
+                {
+                    MessageBox.Show("File to read from path doesnt exist");
+                    readFromTextBox.Text = "";
+                }
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void readPathBox1File()
         {
@@ -123,6 +146,7 @@ namespace TranslFileWriter
                     }
                 }
                 MessageBox.Show("Translation File Uploaded");
+                read1Path = true;
             }
             else
             {
@@ -169,6 +193,7 @@ namespace TranslFileWriter
                     }
                 }
                 MessageBox.Show("Translation Upload File Uploaded");
+                read2Path = true;
             }
             else
             {
@@ -280,7 +305,7 @@ namespace TranslFileWriter
         {
             string temp1;
             string[] temp = new string [9];
-            //randa, line
+            //randa, line kuriame datatype ir replacina "Please update this value" į
             foreach (string tLine in File.ReadAllLines(writeToTextBox.Text))
             {
                 if (tLine.Contains("<file datatype"))
@@ -351,6 +376,18 @@ namespace TranslFileWriter
 
                 linePos++;
             }
+        }
+
+        private void writeToTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //Saves memory by not performing upload to class two times (false = need to upload data to class)
+            read1Path = false;
+        }
+
+        private void readFromTextBox_TextChanged(object sender, EventArgs e)
+        {
+            //Saves memory by not performing upload to class two times (false = need to upload data to class)
+            read2Path = false;
         }
     }
 }

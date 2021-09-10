@@ -63,6 +63,7 @@ namespace TranslFileWriter
             this.writeToTextBox.Name = "writeToTextBox";
             this.writeToTextBox.Size = new System.Drawing.Size(402, 27);
             this.writeToTextBox.TabIndex = 2;
+            this.writeToTextBox.TextChanged += new System.EventHandler(this.writeToTextBox_TextChanged);
             // 
             // readFromTextBox
             // 
@@ -70,6 +71,7 @@ namespace TranslFileWriter
             this.readFromTextBox.Name = "readFromTextBox";
             this.readFromTextBox.Size = new System.Drawing.Size(402, 27);
             this.readFromTextBox.TabIndex = 3;
+            this.readFromTextBox.TextChanged += new System.EventHandler(this.readFromTextBox_TextChanged);
             // 
             // whereToWriteButton
             // 
@@ -126,7 +128,6 @@ namespace TranslFileWriter
             this.Controls.Add(this.label1);
             this.Name = "Form1";
             this.Text = "Translation File Creator";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
