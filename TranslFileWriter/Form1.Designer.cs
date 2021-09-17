@@ -37,6 +37,7 @@ namespace TranslFileWriter
             this.whereToReadFromButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
             this.writeButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -113,11 +114,23 @@ namespace TranslFileWriter
             this.writeButton.UseVisualStyleBackColor = true;
             this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Broadway", 16.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.Location = new System.Drawing.Point(75, 33);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(560, 32);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Simplanova Translation File Merger";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackgroundImage = global::TranslFileWriter.Properties.Resources.Sharethrough_District_M_1024x1024;
+            this.ClientSize = new System.Drawing.Size(699, 458);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.writeButton);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.whereToReadFromButton);
@@ -143,6 +156,7 @@ namespace TranslFileWriter
         private System.Windows.Forms.Button whereToReadFromButton;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button writeButton;
+        private System.Windows.Forms.Label label3;
     }
 }
 

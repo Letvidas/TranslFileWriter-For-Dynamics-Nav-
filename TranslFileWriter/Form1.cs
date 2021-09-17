@@ -262,8 +262,21 @@ namespace TranslFileWriter
                     {
                         if (TempLine == StartLine)
                         {
-                            WriteTo.Target[a] = line.Insert(17, " state=\"translated\"");
-                            break;
+                            if (line.Contains("state=\"translated\""))
+                            {
+                                WriteTo.Target[a] = line;
+                                break;
+                            }
+                            else if (line.Contains("state=\"needs-translation\""))
+                            {
+                                WriteTo.Target[a] = line;
+                                break;
+                            }
+                            else
+                            {
+                                WriteTo.Target[a] = line.Insert(17, " state=\"translated\"");
+                                break;
+                            }
                         }
                         a++;
                         if (a == LineCount)
@@ -357,11 +370,15 @@ namespace TranslFileWriter
                                     //MessageBox.Show(subTargetStrings[sourceValuePos]);
                                     //MessageBox.Show(WriteTo.Target[linePos2]);
                                     //subTargetStrings[sourceValuePos].TrimStart()
-                                    if (subTargetStrings[sourceValuePos] == "")
+                                    if (subTargetStrings[sourceValuePos] == " ")
                                     {
                                         WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + " " + "</target>");
                                     }
-                                    else
+                                    else if (subTargetStrings[sourceValuePos] == "")
+                                    {
+                                        WriteTo.Target[linePos2] = WriteTo.Target[linePos2];
+                                    }
+                                        else
                                     {
                                         WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + subTargetStrings[sourceValuePos].TrimStart() + "</target>");
                                     }
