@@ -273,12 +273,12 @@ namespace TranslFileWriter
                     {
                         if (SearchLine.Contains(SrcLine))
                         {
-                            if (line.Contains("state=\"translated\""))
+                            if (TempLine.Contains("state=\"translated\""))
                             {
                                 WriteTo.Target[a] = TempLine;
                                 break;
                             }
-                            else if (line.Contains("state=\"needs-translation\""))
+                            else if (TempLine.Contains("state=\"needs-translation\""))
                             {
                                 WriteTo.Target[a] = TempLine;
                                 break;

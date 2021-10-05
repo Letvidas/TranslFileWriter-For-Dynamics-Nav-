@@ -128,7 +128,7 @@ namespace TranslFileWriter
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(75, 331);
+            this.checkBox1.Location = new System.Drawing.Point(75, 320);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(251, 24);
             this.checkBox1.TabIndex = 9;
