@@ -38,6 +38,7 @@ namespace TranslFileWriter
             this.exitButton = new System.Windows.Forms.Button();
             this.writeButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -124,12 +125,23 @@ namespace TranslFileWriter
             this.label3.TabIndex = 8;
             this.label3.Text = "Simplanova Translation File Merger";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(75, 331);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(251, 24);
+            this.checkBox1.TabIndex = 9;
+            this.checkBox1.Text = "Check by trans ID (default Note2)";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TranslFileWriter.Properties.Resources.Sharethrough_District_M_1024x1024;
             this.ClientSize = new System.Drawing.Size(699, 458);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.writeButton);
             this.Controls.Add(this.exitButton);
@@ -157,6 +169,7 @@ namespace TranslFileWriter
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button writeButton;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

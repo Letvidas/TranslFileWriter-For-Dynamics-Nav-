@@ -70,8 +70,15 @@ namespace TranslFileWriter
                 readPathBox1File();
                 if (read1Path == false)
                 readPathBox2File();
-                //read Document
-                readFromTranslationFile();
+                //read Document if checked with trans ID/ If not checked Note2
+                if (checkBox1.Checked)
+                {
+                    readFromTranslationFile();
+                }
+                else
+                {
+                    readFromTranslationFileNote2();
+                }
                 //Write option Translations
                 WriteOptionToEnum();
                 //Write to new File 
@@ -147,6 +154,7 @@ namespace TranslFileWriter
                     }
                 }
                 MessageBox.Show("Translation File Uploaded");
+                WriteTo.getNote2Value();
                 read1Path = true;
             }
             else
@@ -193,6 +201,7 @@ namespace TranslFileWriter
                         WriteFrom.EndLine.Add(line);
                     }
                 }
+                WriteFrom.getNote2Value();
                 MessageBox.Show("Translation Upload File Uploaded");
                 read2Path = true;
             }
@@ -239,6 +248,77 @@ namespace TranslFileWriter
                 writer.Close();
             }
 
+        }
+
+        private void readFromTranslationFileNote2()
+        {
+            File.Delete("log.txt");
+            string TempLine = "";
+            string SearchLine = "";
+            int a = 0;
+            int IterationStart = 0;
+            WriteTo.FileEnd.Clear();
+            WriteTo.FileStart.Clear();
+            int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
+            foreach (string line in File.ReadAllLines(readFromTextBox.Text))
+            {
+                if (line.Contains("<target"))
+                {
+                    TempLine = line;
+                }
+                else if (line.Contains("<note from=\"Xliff Generator\""))
+                {
+                    SearchLine = line;
+                    foreach (string SrcLine in WriteTo.SearchNote2Parameters)
+                    {
+                        if (SearchLine.Contains(SrcLine))
+                        {
+                            if (line.Contains("state=\"translated\""))
+                            {
+                                WriteTo.Target[a] = TempLine;
+                                break;
+                            }
+                            else if (line.Contains("state=\"needs-translation\""))
+                            {
+                                WriteTo.Target[a] = TempLine;
+                                break;
+                            }
+                            else
+                            {
+                                WriteTo.Target[a] = TempLine.Insert(17, " state=\"translated\"");
+                                break;
+                            }
+                        }
+                        a++;
+                        if (a == LineCount)
+                        {
+                            File.AppendAllText("log.txt", SearchLine.TrimStart() + System.Environment.NewLine);
+                            //MessageBox.Show("This entry is not found:= " + TempLine);
+                        }
+                    }
+                    a = 0;
+                }
+                else if (IterationStart < 5)
+                {
+                    if (line.Contains("<file datatype"))
+                    {
+                        WriteTo.FileStart.Add(GetFileDataType(line));
+                    }
+                    else if (line.Contains("utf"))
+                    {
+                        WriteTo.FileStart.Add(line.Replace("utf", "UTF"));
+                    }
+                    else
+                    {
+                        WriteTo.FileStart.Add(line);
+                    }
+                    IterationStart++;
+                }
+            }
+            if (File.Exists("log.txt"))
+            {
+                MessageBox.Show("Translations which missed the target (log.txt file located in bin/debug folder): " + System.Environment.NewLine + File.ReadAllText("log.txt"));
+            }
         }
 
         private void readFromTranslationFile()
