@@ -367,7 +367,7 @@ namespace TranslFileWriter
                             }
                         }
                         a++;
-                        if (a == WriteTo.SearchNote2Parameters.Count)
+                        if (a == WriteTo.Target.Count)
                         {
                             File.AppendAllText("log.txt", TempLine.TrimStart() + System.Environment.NewLine);
                             //MessageBox.Show("This entry is not found:= " + TempLine);
