@@ -250,6 +250,7 @@ namespace TranslFileWriter
 
         }
 
+        //Reads with note2
         private void readFromTranslationFileNote2()
         {
             File.Delete("log.txt");
@@ -290,9 +291,12 @@ namespace TranslFileWriter
                             }
                         }
                         a++;
-                        if (a == LineCount)
+                        if (a == WriteTo.SearchNote2Parameters.Count)
                         {
-                            File.AppendAllText("log.txt", SearchLine.TrimStart() + System.Environment.NewLine);
+                            if (!SearchLine.Contains("OptionCaption"))
+                                {
+                                File.AppendAllText("log.txt", SearchLine + System.Environment.NewLine);
+                                }
                             //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
                     }
@@ -314,10 +318,14 @@ namespace TranslFileWriter
                     }
                     IterationStart++;
                 }
+                else if (line.Contains("</group>") || line.Contains("</body>") || line.Contains("</file>") || line.Contains("</xliff>"))
+                {
+                    WriteTo.FileEnd.Add(line);
+                }
             }
             if (File.Exists("log.txt"))
             {
-                MessageBox.Show("Translations which missed the target (log.txt file located in bin/debug folder): " + System.Environment.NewLine + File.ReadAllText("log.txt"));
+                MessageBox.Show("You can open log.txt for details (log.txt file is located in bin/debug/net5.0-windows folder)");
             }
         }
 
@@ -359,7 +367,7 @@ namespace TranslFileWriter
                             }
                         }
                         a++;
-                        if (a == LineCount)
+                        if (a == WriteTo.SearchNote2Parameters.Count)
                         {
                             File.AppendAllText("log.txt", TempLine.TrimStart() + System.Environment.NewLine);
                             //MessageBox.Show("This entry is not found:= " + TempLine);
@@ -433,42 +441,52 @@ namespace TranslFileWriter
 
                     sourceString = WriteFrom.Source[linePos];
                     sourceString = sourceString.Trim();
-                    sourceString = sourceString.Replace("<target>", "");
-                    //sourceString = sourceString.Replace("</target>", "");
+                    sourceString = sourceString.Replace("<source>", "");
+                    sourceString = sourceString.Replace("</source>", "");
                     string[] subSourceStrings = sourceString.Split(",");
-
-                    int sourceValuePos = 0;
-                    foreach (string sourceValue in subSourceStrings)
+                    if (subTargetStrings.Length == subSourceStrings.Length)
                     {
-                        int linePos2 = 0;
-                        foreach (string line2 in WriteTo.StartLine)
+                        int sourceValuePos = 0;
+                        foreach (string sourceValue in subSourceStrings)
                         {
-                            if (line2.Contains("EnumValue"))
+                            int linePos2 = 0;
+                            foreach (string line2 in WriteTo.StartLine)
                             {
-                                if (WriteTo.Source[linePos2].Contains(sourceValue))
+                                if (line2.Contains("EnumValue"))
                                 {
-                                    //MessageBox.Show(subTargetStrings[sourceValuePos]);
-                                    //MessageBox.Show(WriteTo.Target[linePos2]);
-                                    //subTargetStrings[sourceValuePos].TrimStart()
-                                    if (subTargetStrings[sourceValuePos] == " ")
+                                    if (subSourceStrings[sourceValuePos] == " ")
                                     {
-                                        WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + " " + "</target>");
+
                                     }
-                                    else if (subTargetStrings[sourceValuePos] == "")
+                                    else if (WriteTo.Source[linePos2].Contains(sourceValue))
                                     {
-                                        WriteTo.Target[linePos2] = WriteTo.Target[linePos2];
-                                    }
+                                        //MessageBox.Show(subTargetStrings[sourceValuePos]);
+                                        //MessageBox.Show(WriteTo.Target[linePos2]);
+                                        //subTargetStrings[sourceValuePos].TrimStart()
+
+                                        if (subSourceStrings[sourceValuePos] == " ")
+                                        {
+                                            WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + " " + "</target>");
+                                        }
+                                        else if (subSourceStrings[sourceValuePos] == "")
+                                        {
+                                            WriteTo.Target[linePos2] = WriteTo.Target[linePos2];
+                                            //WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + " " + "</target>");
+                                        }
                                         else
-                                    {
-                                        WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + subTargetStrings[sourceValuePos].TrimStart() + "</target>");
+                                        {
+                                            WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + subTargetStrings[sourceValuePos].TrimStart() + "</target>");
+                                        }
+
+                                        WriteTo.Note1[linePos2] = WriteTo.Note1[linePos2].Replace("\"/>", "\"></note>");
+                                        break;
                                     }
-                                    WriteTo.Note1[linePos2] = WriteTo.Note1[linePos2].Replace("\"/>", "\"></note>");
-                                    break;
                                 }
+
+                                linePos2++;
                             }
-                            linePos2++;
+                            sourceValuePos++;
                         }
-                        sourceValuePos++;
                     }
                 }
 
