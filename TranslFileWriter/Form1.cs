@@ -116,12 +116,12 @@ namespace TranslFileWriter
             //Read File which you want to change
             int Iteration = 0;
             WriteTo = new TranslationStructureClass();
-            if (File.ReadAllLines(writeToTextBox.Text).Length > 16)
+            if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > 16)
             {
                 foreach (string line in File.ReadAllLines(writeToTextBox.Text))
                 {
                     if (line.Contains("<trans-unit"))
-                    {
+                       {
                         WriteTo.Target.Add("          <target state=\"needs-translation\"/>");
                         WriteTo.StartLine.Add(line);
                     }
@@ -171,7 +171,7 @@ namespace TranslFileWriter
             WriteFrom = new TranslationStructureClass();
             if (File.ReadAllLines(readFromTextBox.Text).Length > 16)
             {
-                foreach (string line in File.ReadAllLines(readFromTextBox.Text))
+                foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
                 {
                     if (line.Contains("<trans-unit"))
                     {
@@ -223,7 +223,7 @@ namespace TranslFileWriter
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                StreamWriter writer = new StreamWriter(saveFileDialog1.OpenFile());
+                StreamWriter writer = new StreamWriter(saveFileDialog1.OpenFile(),  Encoding.Default);
                 int iter = 0;
                 foreach (string item in WriteTo.FileStart)
                 {
@@ -338,7 +338,7 @@ namespace TranslFileWriter
             WriteTo.FileEnd.Clear();
             WriteTo.FileStart.Clear();
             int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
-            foreach (string line in File.ReadAllLines(readFromTextBox.Text))
+            foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
             {
                 if (line.Contains("<trans-unit"))
                 {
@@ -407,7 +407,7 @@ namespace TranslFileWriter
         {
             string temp1;
             string[] temp = new string [9];
-            //randa, line kuriame datatype ir replacina "Please update this value" į
+            //randa, line kuriame datatype ir replacina "Please update this value" į tinkamą
             foreach (string tLine in File.ReadAllLines(writeToTextBox.Text))
             {
                 if (tLine.Contains("<file datatype"))

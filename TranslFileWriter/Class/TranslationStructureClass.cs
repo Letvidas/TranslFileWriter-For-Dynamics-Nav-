@@ -27,7 +27,6 @@ namespace TranslFileWriter.Class
                 SearchNote2Parameters.Add(itemSplit2[0]);
             }
         }
-
     }
 
     
