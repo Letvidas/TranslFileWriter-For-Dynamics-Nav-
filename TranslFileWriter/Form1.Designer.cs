@@ -34,11 +34,12 @@ namespace TranslFileWriter
             this.writeToTextBox = new System.Windows.Forms.TextBox();
             this.readFromTextBox = new System.Windows.Forms.TextBox();
             this.whereToWriteButton = new System.Windows.Forms.Button();
-            this.whereToReadFromButton = new System.Windows.Forms.Button();
+            this.WhereToReadFromButton = new System.Windows.Forms.Button();
             this.exitButton = new System.Windows.Forms.Button();
             this.writeButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -65,7 +66,7 @@ namespace TranslFileWriter
             this.writeToTextBox.Name = "writeToTextBox";
             this.writeToTextBox.Size = new System.Drawing.Size(402, 27);
             this.writeToTextBox.TabIndex = 2;
-            this.writeToTextBox.TextChanged += new System.EventHandler(this.writeToTextBox_TextChanged);
+            this.writeToTextBox.TextChanged += new System.EventHandler(this.WriteToTextBox_TextChanged);
             // 
             // readFromTextBox
             // 
@@ -73,7 +74,7 @@ namespace TranslFileWriter
             this.readFromTextBox.Name = "readFromTextBox";
             this.readFromTextBox.Size = new System.Drawing.Size(402, 27);
             this.readFromTextBox.TabIndex = 3;
-            this.readFromTextBox.TextChanged += new System.EventHandler(this.readFromTextBox_TextChanged);
+            this.readFromTextBox.TextChanged += new System.EventHandler(this.ReadFromTextBox_TextChanged);
             // 
             // whereToWriteButton
             // 
@@ -83,17 +84,17 @@ namespace TranslFileWriter
             this.whereToWriteButton.TabIndex = 4;
             this.whereToWriteButton.Text = "Select (.xlf) file path:";
             this.whereToWriteButton.UseVisualStyleBackColor = true;
-            this.whereToWriteButton.Click += new System.EventHandler(this.whereToWriteButton_Click);
+            this.whereToWriteButton.Click += new System.EventHandler(this.WhereToWriteButton_Click);
             // 
-            // whereToReadFromButton
+            // WhereToReadFromButton
             // 
-            this.whereToReadFromButton.Location = new System.Drawing.Point(75, 262);
-            this.whereToReadFromButton.Name = "whereToReadFromButton";
-            this.whereToReadFromButton.Size = new System.Drawing.Size(180, 29);
-            this.whereToReadFromButton.TabIndex = 5;
-            this.whereToReadFromButton.Text = "Select (.xlf) file path:";
-            this.whereToReadFromButton.UseVisualStyleBackColor = true;
-            this.whereToReadFromButton.Click += new System.EventHandler(this.whereToReadFromButton_Click);
+            this.WhereToReadFromButton.Location = new System.Drawing.Point(75, 262);
+            this.WhereToReadFromButton.Name = "WhereToReadFromButton";
+            this.WhereToReadFromButton.Size = new System.Drawing.Size(180, 29);
+            this.WhereToReadFromButton.TabIndex = 5;
+            this.WhereToReadFromButton.Text = "Select (.xlf) file path:";
+            this.WhereToReadFromButton.UseVisualStyleBackColor = true;
+            this.WhereToReadFromButton.Click += new System.EventHandler(this.WhereToReadFromButton_Click);
             // 
             // exitButton
             // 
@@ -103,7 +104,7 @@ namespace TranslFileWriter
             this.exitButton.TabIndex = 6;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // writeButton
             // 
@@ -113,7 +114,7 @@ namespace TranslFileWriter
             this.writeButton.TabIndex = 7;
             this.writeButton.Text = "Write";
             this.writeButton.UseVisualStyleBackColor = true;
-            this.writeButton.Click += new System.EventHandler(this.writeButton_Click);
+            this.writeButton.Click += new System.EventHandler(this.WriteButton_Click);
             // 
             // label3
             // 
@@ -135,17 +136,28 @@ namespace TranslFileWriter
             this.checkBox1.Text = "Check by trans ID (default Note2)";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(75, 351);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(226, 24);
+            this.checkBox2.TabIndex = 10;
+            this.checkBox2.Text = "Write From Options to Enums";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TranslFileWriter.Properties.Resources.Sharethrough_District_M_1024x1024;
             this.ClientSize = new System.Drawing.Size(699, 458);
+            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.writeButton);
             this.Controls.Add(this.exitButton);
-            this.Controls.Add(this.whereToReadFromButton);
+            this.Controls.Add(this.WhereToReadFromButton);
             this.Controls.Add(this.whereToWriteButton);
             this.Controls.Add(this.readFromTextBox);
             this.Controls.Add(this.writeToTextBox);
@@ -165,11 +177,12 @@ namespace TranslFileWriter
         private System.Windows.Forms.TextBox writeToTextBox;
         private System.Windows.Forms.TextBox readFromTextBox;
         private System.Windows.Forms.Button whereToWriteButton;
-        private System.Windows.Forms.Button whereToReadFromButton;
+        private System.Windows.Forms.Button WhereToReadFromButton;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.Button writeButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

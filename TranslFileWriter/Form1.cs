@@ -18,48 +18,49 @@ namespace TranslFileWriter
         public Form1()
         {
             InitializeComponent();
+            checkBox2.Enabled = false;
         }
 
         public string path;
         public bool read1Path = false;
         public bool read2Path = false;
-        public TranslationStructureClass WriteTo = new TranslationStructureClass();
-        public TranslationStructureClass WriteFrom = new TranslationStructureClass();
+        public TranslationStructureClass WriteTo = new();
+        public TranslationStructureClass WriteFrom = new();
 
-        private void whereToWriteButton_Click(object sender, EventArgs e)
+        private void WhereToWriteButton_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            using (OpenFileDialog ofd = new())
             {
                 ofd.Filter = "XLIFF (*.xlf)|*.xlf|All files (*.*)|*.*";
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     writeToTextBox.Text = ofd.FileName;
-                    readPathBox1File();
+                    ReadPathBox1File();
                 }
             }
         }
 
-        private void whereToReadFromButton_Click(object sender, EventArgs e)
+        private void WhereToReadFromButton_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new OpenFileDialog())
+            using (OpenFileDialog ofd = new())
             {
                 ofd.Filter = "XLIFF (*.xlf)|*.xlf|All files (*.*)|*.*";
 
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     readFromTextBox.Text = ofd.FileName;
-                    readPathBox2File();
+                    ReadPathBox2File();
                 }
             }
         }
 
-        private void exitButton_Click(object sender, EventArgs e)
+        private void ExitButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void writeButton_Click(object sender, EventArgs e)
+        private void WriteButton_Click(object sender, EventArgs e)
         {
 
             //Check if file exists
@@ -67,22 +68,25 @@ namespace TranslFileWriter
             {
                 //Read just in case user didint press
                 if (read1Path == false)
-                readPathBox1File();
+                ReadPathBox1File();
                 if (read1Path == false)
-                readPathBox2File();
+                ReadPathBox2File();
                 //read Document if checked with trans ID/ If not checked Note2
                 if (checkBox1.Checked)
                 {
-                    readFromTranslationFile();
+                    ReadFromTranslationFile();
                 }
                 else
                 {
-                    readFromTranslationFileNote2();
+                    ReadFromTranslationFileNote2();
                 }
                 //Write option Translations
-                WriteOptionToEnum();
+                if (checkBox2.Checked)
+                {
+                    WriteOptionToEnum();
+                }
                 //Write to new File 
-                createNewFile(WriteTo);
+                CreateNewFile(WriteTo);
             }
             //If both files are written, but path is incorrect
             else
@@ -111,15 +115,22 @@ namespace TranslFileWriter
         }
 
 
-        private void readPathBox1File()
+        private void ReadPathBox1File()
         {
             //Read File which you want to change
             int Iteration = 0;
             WriteTo = new TranslationStructureClass();
             if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > 16)
             {
+                checkBox2.Enabled = false;
+                checkBox2.Checked = false;
                 foreach (string line in File.ReadAllLines(writeToTextBox.Text))
                 {
+                    if (line.Contains("EnumValue"))
+                    {
+                        checkBox2.Enabled = true;
+                        checkBox2.Checked = true;
+                    }
                     if (line.Contains("<trans-unit"))
                        {
                         WriteTo.Target.Add("          <target state=\"needs-translation\"/>");
@@ -154,7 +165,7 @@ namespace TranslFileWriter
                     }
                 }
                 MessageBox.Show("Translation File Uploaded");
-                WriteTo.getNote2Value();
+                WriteTo.GetNote2Value();
                 read1Path = true;
             }
             else
@@ -164,7 +175,7 @@ namespace TranslFileWriter
             }
         }
 
-        private void readPathBox2File()
+        private void ReadPathBox2File()
         {
             //Read File which you want to change
             int Iteration = 0;
@@ -201,7 +212,7 @@ namespace TranslFileWriter
                         WriteFrom.EndLine.Add(line);
                     }
                 }
-                WriteFrom.getNote2Value();
+                WriteFrom.GetNote2Value();
                 MessageBox.Show("Translation Upload File Uploaded");
                 read2Path = true;
             }
@@ -212,9 +223,9 @@ namespace TranslFileWriter
             }
         }
 
-        private void createNewFile(TranslationStructureClass WriteTo)
+        static private void CreateNewFile(TranslationStructureClass WriteTo)
         {
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            SaveFileDialog saveFileDialog1 = new();
 
             saveFileDialog1.FileName = "SourceValueDuplicates.xlf";
             saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
@@ -223,7 +234,7 @@ namespace TranslFileWriter
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                StreamWriter writer = new StreamWriter(saveFileDialog1.OpenFile(),  Encoding.Default);
+                StreamWriter writer = new(saveFileDialog1.OpenFile(),  Encoding.Default);
                 int iter = 0;
                 foreach (string item in WriteTo.FileStart)
                 {
@@ -251,16 +262,16 @@ namespace TranslFileWriter
         }
 
         //Reads with note2 (Default)
-        private void readFromTranslationFileNote2()
+        private void ReadFromTranslationFileNote2()
         {
             File.Delete("log.txt");
             string TempLine = "";
-            string SearchLine = "";
+            string SearchLine;
             int a = 0;
             int IterationStart = 0;
             WriteTo.FileEnd.Clear();
             WriteTo.FileStart.Clear();
-            int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
+            //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
             foreach (string line in File.ReadAllLines(readFromTextBox.Text))
             {
                 if (line.Contains("<target"))
@@ -330,7 +341,7 @@ namespace TranslFileWriter
         }
 
         //Reads from transunit ID
-        private void readFromTranslationFile()
+        private void ReadFromTranslationFile()
         {
             File.Delete("log.txt");
             string TempLine = "";
@@ -338,7 +349,7 @@ namespace TranslFileWriter
             int IterationStart = 0;
             WriteTo.FileEnd.Clear();
             WriteTo.FileStart.Clear();
-            int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
+            //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
             foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
             {
                 if (line.Contains("<trans-unit"))
@@ -495,13 +506,13 @@ namespace TranslFileWriter
             }
         }
 
-        private void writeToTextBox_TextChanged(object sender, EventArgs e)
+        private void WriteToTextBox_TextChanged(object sender, EventArgs e)
         {
             //Saves memory by not performing upload to class two times (false = need to upload data to class)
             read1Path = false;
         }
 
-        private void readFromTextBox_TextChanged(object sender, EventArgs e)
+        private void ReadFromTextBox_TextChanged(object sender, EventArgs e)
         {
             //Saves memory by not performing upload to class two times (false = need to upload data to class)
             read2Path = false;

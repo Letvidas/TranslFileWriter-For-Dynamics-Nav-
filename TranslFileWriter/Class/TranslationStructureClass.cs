@@ -8,17 +8,17 @@ namespace TranslFileWriter.Class
 {
     public class TranslationStructureClass
     {
-        public List<string> StartLine = new List<string>();
-        public List<string> Source = new List<string>();
-        public List<string> Target = new List<string>();
-        public List<string> Note1 = new List<string>();
-        public List<string> Note2 = new List<string>();
-        public List<string> EndLine = new List<string>();
-        public List<string> FileStart = new List<string>();
-        public List<string> FileEnd = new List<string>();
-        public List<string> SearchNote2Parameters = new List<string>();
+        public List<string> StartLine = new();
+        public List<string> Source = new();
+        public List<string> Target = new();
+        public List<string> Note1 = new();
+        public List<string> Note2 = new();
+        public List<string> EndLine = new();
+        public List<string> FileStart = new();
+        public List<string> FileEnd = new();
+        public List<string> SearchNote2Parameters = new();
 
-        public void getNote2Value()
+        public void GetNote2Value()
         {      
             foreach (string item in Note2)
             {
