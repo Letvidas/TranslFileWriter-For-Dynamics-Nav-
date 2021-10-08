@@ -250,7 +250,7 @@ namespace TranslFileWriter
 
         }
 
-        //Reads with note2
+        //Reads with note2 (Default)
         private void readFromTranslationFileNote2()
         {
             File.Delete("log.txt");
@@ -329,6 +329,7 @@ namespace TranslFileWriter
             }
         }
 
+        //Reads from transunit ID
         private void readFromTranslationFile()
         {
             File.Delete("log.txt");
