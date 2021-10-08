@@ -285,20 +285,23 @@ namespace TranslFileWriter
                     {
                         if (SearchLine.Contains(SrcLine))
                         {
-                            if (TempLine.Contains("state=\"translated\""))
+                            if (WriteTo.ReturnSplitedLine(SearchLine).Equals(SrcLine))
                             {
-                                WriteTo.Target[a] = TempLine;
-                                break;
-                            }
-                            else if (TempLine.Contains("state=\"needs-translation\""))
-                            {
-                                WriteTo.Target[a] = TempLine;
-                                break;
-                            }
-                            else
-                            {
-                                WriteTo.Target[a] = TempLine.Insert(17, " state=\"translated\"");
-                                break;
+                                if (TempLine.Contains("state=\"translated\""))
+                                {
+                                    WriteTo.Target[a] = TempLine;
+                                    break;
+                                }
+                                else if (TempLine.Contains("state=\"needs-translation\""))
+                                {
+                                    WriteTo.Target[a] = TempLine;
+                                    break;
+                                }
+                                else
+                                {
+                                    WriteTo.Target[a] = TempLine.Insert(17, " state=\"translated\"");
+                                    break;
+                                }
                             }
                         }
                         a++;

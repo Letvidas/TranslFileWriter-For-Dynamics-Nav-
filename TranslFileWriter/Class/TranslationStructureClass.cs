@@ -27,6 +27,13 @@ namespace TranslFileWriter.Class
                 SearchNote2Parameters.Add(itemSplit2[0]);
             }
         }
+
+        public string ReturnSplitedLine(string lineToSplit)
+        {
+            string[] itemSplit = lineToSplit.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
+            string[] itemSplit2 = itemSplit[1].Split("</");
+            return itemSplit2[0];
+        }
     }
 
     
