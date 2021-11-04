@@ -86,7 +86,7 @@ namespace TranslFileWriter
                     WriteOptionToEnum();
                 }
                 //Write to new File 
-                CreateNewFile(WriteTo);
+                CreateNewFile(WriteTo,readFromTextBox.Text);
             }
             //If both files are written, but path is incorrect
             else
@@ -223,11 +223,12 @@ namespace TranslFileWriter
             }
         }
 
-        static private void CreateNewFile(TranslationStructureClass WriteTo)
+        static private void CreateNewFile(TranslationStructureClass WriteTo, string readpath)
         {
+            MessageBox.Show("Create translated file");
+            string FileName = Path.GetFileName(readpath);
             SaveFileDialog saveFileDialog1 = new();
-
-            saveFileDialog1.FileName = "SourceValueDuplicates.xlf";
+            saveFileDialog1.FileName = FileName;
             saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             saveFileDialog1.FilterIndex = 2;
             saveFileDialog1.RestoreDirectory = true;
@@ -307,10 +308,7 @@ namespace TranslFileWriter
                         a++;
                         if (a == WriteTo.SearchNote2Parameters.Count)
                         {
-                            if (!SearchLine.Contains("OptionCaption"))
-                                {
                                 File.AppendAllText("log.txt", SearchLine + System.Environment.NewLine);
-                                }
                             //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
                     }
@@ -339,7 +337,18 @@ namespace TranslFileWriter
             }
             if (File.Exists("log.txt"))
             {
-                MessageBox.Show("You can open log.txt for details (log.txt file is located in bin/debug/net5.0-windows folder)");
+                MessageBox.Show("There are some translations that missed the target. Please save Log file");
+                SaveFileDialog newlog = new();
+                newlog.FileName= "log.txt";
+                newlog.Filter = "(*.txt)|*.txt";
+                newlog.FilterIndex = 2;
+                if (newlog.ShowDialog() == DialogResult.OK)
+                {
+                    StreamWriter writer = new(newlog.OpenFile(), Encoding.Default);
+                    writer.Write(File.ReadAllText("log.txt"));
+                    writer.Dispose();
+                    writer.Close();
+                }
             }
         }
 
