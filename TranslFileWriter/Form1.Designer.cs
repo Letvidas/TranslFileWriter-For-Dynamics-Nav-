@@ -40,6 +40,7 @@ namespace TranslFileWriter
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -98,7 +99,7 @@ namespace TranslFileWriter
             // 
             // exitButton
             // 
-            this.exitButton.Location = new System.Drawing.Point(75, 389);
+            this.exitButton.Location = new System.Drawing.Point(75, 402);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(122, 29);
             this.exitButton.TabIndex = 6;
@@ -146,12 +147,23 @@ namespace TranslFileWriter
             this.checkBox2.Text = "Write From Options to Enums";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(513, 332);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(160, 29);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Create Trans. File";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TranslFileWriter.Properties.Resources.Sharethrough_District_M_1024x1024;
-            this.ClientSize = new System.Drawing.Size(699, 458);
+            this.ClientSize = new System.Drawing.Size(699, 449);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label3);
@@ -183,6 +195,7 @@ namespace TranslFileWriter
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Button button1;
     }
 }
 

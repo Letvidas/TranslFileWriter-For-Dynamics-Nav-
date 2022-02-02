@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TranslFileWriter.Class;
 using System.IO;
+using System.Threading;
 
 
 namespace TranslFileWriter
@@ -86,7 +87,7 @@ namespace TranslFileWriter
                     WriteOptionToEnum();
                 }
                 //Write to new File 
-                CreateNewFile(WriteTo,readFromTextBox.Text);
+                //CreateNewFile(WriteTo,readFromTextBox.Text);
             }
             //If both files are written, but path is incorrect
             else
@@ -162,6 +163,10 @@ namespace TranslFileWriter
                     else if (line.Contains("</trans-unit"))
                     {
                         WriteTo.EndLine.Add(line);
+                    }
+                    else
+                    {
+                        MessageBox.Show(line);
                     }
                 }
                 MessageBox.Show("Translation File Uploaded");
@@ -528,6 +533,16 @@ namespace TranslFileWriter
         {
             //Saves memory by not performing upload to class two times (false = need to upload data to class)
             read2Path = false;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CreateNewFile(WriteTo, readFromTextBox.Text);
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
