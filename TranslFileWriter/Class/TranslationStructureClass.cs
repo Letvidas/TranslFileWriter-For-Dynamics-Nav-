@@ -18,32 +18,47 @@ namespace TranslFileWriter.Class
         public List<string> FileStart = new();
         public List<string> FileEnd = new();
         public List<string> SearchNote2Parameters = new();
+        public Boolean Full;
 
         //gets splited lines
         public void GetNote2Value()
-        {      
+        {
+            Boolean a;
             foreach (string item in Note2)
             {
-                string[] itemSplit = item.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
-                string[] itemSplit2 = itemSplit[1].Split("</");
-                if (itemSplit2[0].Contains("extension") && itemSplit2[0].Contains('-'))
+                a = false;
+                if (item.Contains("extension") && item.Contains('-'))
                 {
-                    itemSplit2[0] = SplitExtension(itemSplit2);
+                    string[] itemSplit = item.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
+                    string[] itemSplit2 = itemSplit[1].Split("</");
+                    if (itemSplit2[0].Contains("extension") && itemSplit2[0].Contains('-'))
+                    {
+                        itemSplit2[0] = SplitExtension(itemSplit2);
+                    }
+                    SearchNote2Parameters.Add(itemSplit2[0]);
+                    a = true;
                 }
-                SearchNote2Parameters.Add(itemSplit2[0]);
+                if (a == false)
+                {
+                    SearchNote2Parameters.Add(item);
+                }
             }
         }
 
         //returns splited line
         public string ReturnSplitedLine(string lineToSplit)
         {
-            string[] itemSplit = lineToSplit.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
-            string[] itemSplit2 = itemSplit[1].Split("</");
-            if (itemSplit2[0].Contains("extension") && itemSplit2[0].Contains('-'))
+            if (lineToSplit.Contains("extension") && lineToSplit.Contains('-'))
             {
-                itemSplit2[0] = SplitExtension(itemSplit2);
+                string[] itemSplit = lineToSplit.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
+                string[] itemSplit2 = itemSplit[1].Split("</");
+                if (itemSplit2[0].Contains("extension") && itemSplit2[0].Contains('-'))
+                {
+                    itemSplit2[0] = SplitExtension(itemSplit2);
+                    lineToSplit = itemSplit2[0];
+                }
             }
-            return itemSplit2[0];
+            return lineToSplit;
         }
 
         // Splits Note2 to dispose of extension id
@@ -51,7 +66,16 @@ namespace TranslFileWriter.Class
         {
             string[] splitedLines;
             string returnValue = "";
+            string[] extensiontype;
             splitedLines = itemSplit[0].Split('-');
+            if (Full == false)
+            {
+                extensiontype = splitedLines[0].Split(' ');
+            }
+            else
+            {
+                extensiontype = splitedLines;
+            }
             int count = 0;
             foreach (string line in splitedLines)
             {
@@ -68,6 +92,7 @@ namespace TranslFileWriter.Class
                 }
                 count++;
             }
+            returnValue = returnValue + extensiontype[0];
             return returnValue;
         }
     }

@@ -166,7 +166,7 @@ namespace TranslFileWriter
                     }
                     else
                     {
-                        MessageBox.Show(line);
+                        //MessageBox.Show(line);
                     }
                 }
                 MessageBox.Show("Translation File Uploaded");
@@ -224,7 +224,7 @@ namespace TranslFileWriter
             else
             {
                 MessageBox.Show("Empty file");
-                writeToTextBox.ResetText();
+                readFromTextBox.ResetText();
             }
         }
 
@@ -289,8 +289,10 @@ namespace TranslFileWriter
                     SearchLine = line;
                     foreach (string SrcLine in WriteTo.SearchNote2Parameters)
                     {
-                        if (SearchLine.Contains(SrcLine))
-                        {
+                        //if (SearchLine.Contains(SrcLine))
+                        //{
+                        //    MessageBox.Show(WriteTo.ReturnSplitedLine(SearchLine));
+                        //    MessageBox.Show(SrcLine);
                             if (WriteTo.ReturnSplitedLine(SearchLine).Equals(SrcLine))
                             {
                                 if (TempLine.Contains("state=\"translated\""))
@@ -308,7 +310,7 @@ namespace TranslFileWriter
                                     WriteTo.Target[a] = TempLine.Insert(17, " state=\"translated\"");
                                     break;
                                 }
-                            }
+                           // }
                         }
                         a++;
                         if (a == WriteTo.SearchNote2Parameters.Count)
@@ -543,6 +545,12 @@ namespace TranslFileWriter
         private void label4_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            WriteFrom.Full = checkBox3.Checked;
+            WriteTo.Full = checkBox3.Checked;
         }
     }
 }
