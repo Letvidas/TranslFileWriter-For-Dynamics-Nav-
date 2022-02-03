@@ -357,6 +357,11 @@ namespace TranslFileWriter
                     writer.Close();
                 }
             }
+            else
+            {
+                MessageBox.Show("Translations Transfered");
+            }
+            
         }
 
         //Reads from transunit ID
