@@ -556,6 +556,8 @@ namespace TranslFileWriter
         {
             WriteFrom.Full = checkBox3.Checked;
             WriteTo.Full = checkBox3.Checked;
+            WriteFrom.GetNote2Value();
+            WriteTo.GetNote2Value();
         }
     }
 }

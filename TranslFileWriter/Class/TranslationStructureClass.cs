@@ -23,6 +23,7 @@ namespace TranslFileWriter.Class
         //gets splited lines
         public void GetNote2Value()
         {
+            SearchNote2Parameters.Clear();
             Boolean a;
             foreach (string item in Note2)
             {
