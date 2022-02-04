@@ -89,6 +89,7 @@ namespace TranslFileWriter
                 }
                 else
                 {
+                    label5.Text = "00s 00m";
                     SetProgressBar();
                     timer1.Interval = 1000;
                     timer1.Enabled = true;
@@ -138,7 +139,6 @@ namespace TranslFileWriter
         {
             //Read File which you want to change
             int Iteration = 0;
-            Count = 0;
             WriteTo = new TranslationStructureClass();
             if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > 16)
             {
@@ -202,6 +202,7 @@ namespace TranslFileWriter
         private void ReadPathBox2File()
         {
             //Read File which you want to change
+            Count = 0;
             int Iteration = 0;
             WriteFrom = new TranslationStructureClass();
             if (File.ReadAllLines(readFromTextBox.Text).Length > 16)
@@ -378,6 +379,7 @@ namespace TranslFileWriter
             label4.Invoke(labelHide4);
             label5.Invoke(labelHide5);
             st.Stop();
+            st.Reset();
             timer1.Stop();
             if (File.Exists("log.txt"))
             {
