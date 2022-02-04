@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using TranslFileWriter.Class;
 using System.IO;
 using System.Threading;
+using System.Diagnostics;
 
 
 namespace TranslFileWriter
@@ -27,6 +28,9 @@ namespace TranslFileWriter
         public bool read2Path = false;
         public TranslationStructureClass WriteTo = new();
         public TranslationStructureClass WriteFrom = new();
+        public int Count = 0;
+        int secondsPassed = 0;
+        Stopwatch st;
 
         private void WhereToWriteButton_Click(object sender, EventArgs e)
         {
@@ -42,6 +46,13 @@ namespace TranslFileWriter
             }
         }
 
+        private void SetProgressBar()
+        {
+            progressBar1.Maximum = Count;
+            progressBar1.Minimum = 0;
+            progressBar1.Value = 0;
+            progressBar1.Visible = true;
+        }
         private void WhereToReadFromButton_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new())
@@ -63,7 +74,6 @@ namespace TranslFileWriter
 
         private void WriteButton_Click(object sender, EventArgs e)
         {
-
             //Check if file exists
             if (File.Exists(readFromTextBox.Text) && File.Exists(writeToTextBox.Text))
             {
@@ -79,7 +89,15 @@ namespace TranslFileWriter
                 }
                 else
                 {
-                    ReadFromTranslationFileNote2();
+                    SetProgressBar();
+                    timer1.Interval = 1000;
+                    timer1.Enabled = true;
+                    timer1.Tick += new EventHandler(timer1_Tick);
+                    timer1.Start();
+                    Thread thread = new Thread(new ThreadStart(ReadFromTranslationFileNote2));
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.Start();
+                    //ReadFromTranslationFileNote2();
                 }
                 //Write option Translations
                 if (checkBox2.Checked)
@@ -120,12 +138,13 @@ namespace TranslFileWriter
         {
             //Read File which you want to change
             int Iteration = 0;
+            Count = 0;
             WriteTo = new TranslationStructureClass();
             if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > 16)
             {
                 checkBox2.Enabled = false;
                 checkBox2.Checked = false;
-                foreach (string line in File.ReadAllLines(writeToTextBox.Text))
+                foreach (string line in File.ReadAllLines(writeToTextBox.Text, Encoding.Default))
                 {
                     if (line.Contains("EnumValue"))
                     {
@@ -216,6 +235,7 @@ namespace TranslFileWriter
                     {
                         WriteFrom.EndLine.Add(line);
                     }
+                    Count++;
                 }
                 WriteFrom.GetNote2Value();
                 MessageBox.Show("Translation Upload File Uploaded");
@@ -278,7 +298,14 @@ namespace TranslFileWriter
             WriteTo.FileEnd.Clear();
             WriteTo.FileStart.Clear();
             //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
-            foreach (string line in File.ReadAllLines(readFromTextBox.Text))
+            //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
+            st = new Stopwatch();
+            st.Start();
+            MethodInvoker labelShow5 = new MethodInvoker(() => label5.Visible = true);
+            MethodInvoker labelShow4 = new MethodInvoker(() => label4.Visible = true);
+            label4.Invoke(labelShow4);
+            label5.Invoke(labelShow5);
+            foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
             {
                 if (line.Contains("<target"))
                 {
@@ -341,7 +368,17 @@ namespace TranslFileWriter
                 {
                     WriteTo.FileEnd.Add(line);
                 }
+                MethodInvoker Up = new MethodInvoker(() => progressBar1.Value++);
+                progressBar1.Invoke(Up);
             }
+            MethodInvoker labelHide5 = new MethodInvoker(() => label5.Visible = false);
+            MethodInvoker labelHide4 = new MethodInvoker(() => label4.Visible = false);
+            MethodInvoker Vis = new MethodInvoker(() => progressBar1.Visible = false);
+            progressBar1.Invoke(Vis);
+            label4.Invoke(labelHide4);
+            label5.Invoke(labelHide5);
+            st.Stop();
+            timer1.Stop();
             if (File.Exists("log.txt"))
             {
                 MessageBox.Show("There are some translations that missed the target. Please save Log file");
@@ -559,5 +596,18 @@ namespace TranslFileWriter
             WriteFrom.GetNote2Value();
             WriteTo.GetNote2Value();
         }
+
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            MethodInvoker lblupd = new MethodInvoker(() =>label5.Text =st.Elapsed.Minutes.ToString() + "m " + st.Elapsed.Seconds.ToString() + "s");
+            label5.Invoke(lblupd);
+            Application.DoEvents();
+        }
+
     }
 }

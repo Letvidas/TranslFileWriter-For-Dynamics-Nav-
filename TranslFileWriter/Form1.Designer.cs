@@ -29,6 +29,7 @@ namespace TranslFileWriter
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.writeToTextBox = new System.Windows.Forms.TextBox();
@@ -42,6 +43,10 @@ namespace TranslFileWriter
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.button1 = new System.Windows.Forms.Button();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -169,12 +174,49 @@ namespace TranslFileWriter
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(374, 398);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(299, 26);
+            this.progressBar1.TabIndex = 13;
+            this.progressBar1.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(374, 367);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(90, 20);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Time Passed";
+            this.label4.Visible = false;
+            this.label4.Click += new System.EventHandler(this.label4_Click_1);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(470, 367);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(44, 20);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "00:00";
+            this.label5.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::TranslFileWriter.Properties.Resources.Sharethrough_District_M_1024x1024;
             this.ClientSize = new System.Drawing.Size(699, 449);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.checkBox2);
@@ -210,6 +252,10 @@ namespace TranslFileWriter
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }
 
