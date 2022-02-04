@@ -29,7 +29,6 @@ namespace TranslFileWriter
         public TranslationStructureClass WriteTo = new();
         public TranslationStructureClass WriteFrom = new();
         public int Count = 0;
-        int secondsPassed = 0;
         Stopwatch st;
 
         private void WhereToWriteButton_Click(object sender, EventArgs e)
