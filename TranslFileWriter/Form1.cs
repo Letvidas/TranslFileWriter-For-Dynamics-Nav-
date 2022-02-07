@@ -79,7 +79,7 @@ namespace TranslFileWriter
                 //Read just in case user didint press
                 if (read1Path == false)
                 ReadPathBox1File();
-                if (read1Path == false)
+                if (read2Path == false)
                 ReadPathBox2File();
                 //read Document if checked with trans ID/ If not checked Note2
                 if (checkBox1.Checked)
