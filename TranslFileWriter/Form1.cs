@@ -381,10 +381,10 @@ namespace TranslFileWriter
             timer1.Stop();
             if (File.Exists("log.txt"))
             {
-                MessageBox.Show("There are some translations that missed the target. Please save Log file");
+                MessageBox.Show(@"There are some translations that missed the target. Please save Log file");
                 SaveFileDialog newLog = new();
                 newLog.FileName = "log.txt";
-                newLog.Filter = "(*.txt)|*.txt";
+                newLog.Filter = @"(*.txt)|*.txt";
                 newLog.FilterIndex = 2;
                 if (newLog.ShowDialog() == DialogResult.OK)
                 {
@@ -396,7 +396,7 @@ namespace TranslFileWriter
             }
             else
             {
-                MessageBox.Show("Translations Transfered");
+                MessageBox.Show(@"Translations transferred");
             }
 
         }
