@@ -196,7 +196,6 @@ namespace TranslFileWriter
             this.label4.TabIndex = 14;
             this.label4.Text = "Time Passed";
             this.label4.Visible = false;
-            this.label4.Click += new System.EventHandler(this.label4_Click_1);
             // 
             // label5
             // 

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TranslFileWriter.Class;
 using System.IO;
@@ -23,11 +17,11 @@ namespace TranslFileWriter
             checkBox2.Enabled = false;
         }
 
-        private bool _read1Path = false;
-        private bool _read2Path = false;
+        private bool _read1Path;
+        private bool _read2Path;
         private TranslationStructureClass _writeTo = new();
         private TranslationStructureClass _writeFrom = new();
-        private int _count = 0;
+        private int _count;
         private Stopwatch _st;
 
         private void WhereToWriteButton_Click(object sender, EventArgs e)
@@ -67,7 +61,7 @@ namespace TranslFileWriter
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void WriteButton_Click(object sender, EventArgs e)
@@ -91,9 +85,9 @@ namespace TranslFileWriter
                     SetProgressBar();
                     timer1.Interval = 1000;
                     timer1.Enabled = true;
-                    timer1.Tick += new EventHandler(timer1_Tick);
+                    timer1.Tick += timer1_Tick;
                     timer1.Start();
-                    Thread thread = new Thread(new ThreadStart(ReadFromTranslationFileNote2));
+                    Thread thread = new Thread(ReadFromTranslationFileNote2);
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
                     //ReadFromTranslationFileNote2();
@@ -247,13 +241,13 @@ namespace TranslFileWriter
             }
         }
 
-        static private void CreateNewFile(TranslationStructureClass writeTo, string readpath)
+        private static void CreateNewFile(TranslationStructureClass writeTo, string readPath)
         {
             MessageBox.Show(@"Create translated file");
-            string fileName = System.IO.Path.GetFileName(readpath);
+            string fileName = Path.GetFileName(readPath);
             SaveFileDialog saveFileDialog1 = new();
             saveFileDialog1.FileName = fileName;
-            saveFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            saveFileDialog1.Filter = @"txt files (*.txt)|*.txt|All files (*.*)|*.*";
             saveFileDialog1.FilterIndex = 2;
             saveFileDialog1.RestoreDirectory = true;
 
@@ -265,7 +259,7 @@ namespace TranslFileWriter
                 {
                     writer.WriteLine(item);
                 }
-                foreach (string s in writeTo.StartLine)
+                foreach (string unused in writeTo.StartLine)
                 {
                     writer.WriteLine(writeTo.StartLine[iter]);
                     writer.WriteLine(writeTo.Source[iter]);
@@ -341,7 +335,7 @@ namespace TranslFileWriter
                         a++;
                         if (a == _writeTo.SearchNote2Parameters.Count)
                         {
-                            File.AppendAllText("log.txt", searchLine + System.Environment.NewLine);
+                            File.AppendAllText("log.txt", searchLine + Environment.NewLine);
                             //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
                     }
@@ -442,7 +436,7 @@ namespace TranslFileWriter
                         a++;
                         if (a == _writeTo.Target.Count)
                         {
-                            File.AppendAllText("log.txt", tempLine.TrimStart() + System.Environment.NewLine);
+                            File.AppendAllText("log.txt", tempLine.TrimStart() + Environment.NewLine);
                             //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
                     }
@@ -472,7 +466,7 @@ namespace TranslFileWriter
 
             if (File.Exists("log.txt"))
             {
-                MessageBox.Show(@"Translations which missed the target (log.txt file located in bin/debug folder): " + System.Environment.NewLine + File.ReadAllText("log.txt"));
+                MessageBox.Show(@"Translations which missed the target (log.txt file located in bin/debug folder): " + Environment.NewLine + File.ReadAllText("log.txt"));
             }
         }
 
@@ -584,22 +578,12 @@ namespace TranslFileWriter
             CreateNewFile(_writeTo, readFromTextBox.Text);
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
             _writeFrom.Full = checkBox3.Checked;
             _writeTo.Full = checkBox3.Checked;
             _writeFrom.GetNote2Value();
             _writeTo.GetNote2Value();
-        }
-
-        private void label4_Click_1(object sender, EventArgs e)
-        {
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
