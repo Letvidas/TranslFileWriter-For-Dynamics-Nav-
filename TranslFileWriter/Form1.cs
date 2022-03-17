@@ -77,7 +77,15 @@ namespace TranslFileWriter
                 //read Document if checked with trans ID/ If not checked Note2
                 if (checkBox1.Checked)
                 {
-                    ReadFromTranslationFile();
+                    label5.Text = @"00s 00m";
+                    SetProgressBar();
+                    timer1.Interval = 1000;
+                    timer1.Enabled = true;
+                    timer1.Tick += timer1_Tick;
+                    timer1.Start();
+                    Thread thread = new Thread(ReadFromTranslationFile);
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.Start();
                 }
                 else
                 {
@@ -405,6 +413,13 @@ namespace TranslFileWriter
             _writeTo.FileEnd.Clear();
             _writeTo.FileStart.Clear();
             //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
+            _st = new Stopwatch();
+            _st.Start();
+            MethodInvoker labelShow5 = new MethodInvoker(() => label5.Visible = true);
+            MethodInvoker labelShow4 = new MethodInvoker(() => label4.Visible = true);
+            label4.Invoke(labelShow4);
+            label5.Invoke(labelShow5);
+
             foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
             {
                 if (line.Contains("<trans-unit"))
@@ -462,7 +477,19 @@ namespace TranslFileWriter
                 {
                     _writeTo.FileEnd.Add(line);
                 }
+                MethodInvoker up = new MethodInvoker(() => progressBar1.Value++);
+                progressBar1.Invoke(up);
             }
+
+            MethodInvoker labelHide5 = new MethodInvoker(() => label5.Visible = false);
+            MethodInvoker labelHide4 = new MethodInvoker(() => label4.Visible = false);
+            MethodInvoker vis = new MethodInvoker(() => progressBar1.Visible = false);
+            progressBar1.Invoke(vis);
+            label4.Invoke(labelHide4);
+            label5.Invoke(labelHide5);
+            _st.Stop();
+            _st.Reset();
+            timer1.Stop();
 
             if (File.Exists("log.txt"))
             {
