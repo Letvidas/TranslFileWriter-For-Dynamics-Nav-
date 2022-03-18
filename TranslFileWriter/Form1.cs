@@ -140,7 +140,7 @@ namespace TranslFileWriter
             //Read File which you want to change
             int iteration = 0;
             _writeTo = new TranslationStructureClass();
-            if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > 16)
+            if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > 13)
             {
                 checkBox2.Enabled = false;
                 checkBox2.Checked = false;
@@ -205,7 +205,7 @@ namespace TranslFileWriter
             _count = 0;
             int iteration = 0;
             _writeFrom = new TranslationStructureClass();
-            if (File.ReadAllLines(readFromTextBox.Text).Length > 16)
+            if (File.ReadAllLines(readFromTextBox.Text).Length > 13)
             {
                 foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
                 {
@@ -229,8 +229,14 @@ namespace TranslFileWriter
                     }
                     else if (line.Contains("<note") && iteration == 1)
                     {
+
                         _writeFrom.Note2.Add(line);
                         iteration = 0;
+
+                        if (_writeFrom.Note2.Count > _writeFrom.Target.Count)
+                        {
+                            _writeFrom.Target.Add("          <target state=\"needs-translation\"");
+                        }
                     }
                     else if (line.Contains("</trans-unit"))
                     {
@@ -302,8 +308,8 @@ namespace TranslFileWriter
             //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
             _st = new Stopwatch();
             _st.Start();
-            MethodInvoker labelShow5 = new MethodInvoker(() => label5.Visible = true);
-            MethodInvoker labelShow4 = new MethodInvoker(() => label4.Visible = true);
+            MethodInvoker labelShow5 = () => label5.Visible = true;
+            MethodInvoker labelShow4 = () => label4.Visible = true;
             label4.Invoke(labelShow4);
             label5.Invoke(labelShow5);
             foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
@@ -369,12 +375,12 @@ namespace TranslFileWriter
                 {
                     _writeTo.FileEnd.Add(line);
                 }
-                MethodInvoker up = new MethodInvoker(() => progressBar1.Value++);
+                MethodInvoker up = () => progressBar1.Value++;
                 progressBar1.Invoke(up);
             }
-            MethodInvoker labelHide5 = new MethodInvoker(() => label5.Visible = false);
-            MethodInvoker labelHide4 = new MethodInvoker(() => label4.Visible = false);
-            MethodInvoker vis = new MethodInvoker(() => progressBar1.Visible = false);
+            MethodInvoker labelHide5 = () => label5.Visible = false;
+            MethodInvoker labelHide4 = () => label4.Visible = false;
+            MethodInvoker vis = () => progressBar1.Visible = false;
             progressBar1.Invoke(vis);
             label4.Invoke(labelHide4);
             label5.Invoke(labelHide5);
@@ -415,8 +421,8 @@ namespace TranslFileWriter
             //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
             _st = new Stopwatch();
             _st.Start();
-            MethodInvoker labelShow5 = new MethodInvoker(() => label5.Visible = true);
-            MethodInvoker labelShow4 = new MethodInvoker(() => label4.Visible = true);
+            MethodInvoker labelShow5 = () => label5.Visible = true;
+            MethodInvoker labelShow4 = () => label4.Visible = true;
             label4.Invoke(labelShow4);
             label5.Invoke(labelShow5);
 
@@ -477,13 +483,13 @@ namespace TranslFileWriter
                 {
                     _writeTo.FileEnd.Add(line);
                 }
-                MethodInvoker up = new MethodInvoker(() => progressBar1.Value++);
+                MethodInvoker up = () => progressBar1.Value++;
                 progressBar1.Invoke(up);
             }
 
-            MethodInvoker labelHide5 = new MethodInvoker(() => label5.Visible = false);
-            MethodInvoker labelHide4 = new MethodInvoker(() => label4.Visible = false);
-            MethodInvoker vis = new MethodInvoker(() => progressBar1.Visible = false);
+            MethodInvoker labelHide5 = () => label5.Visible = false;
+            MethodInvoker labelHide4 = () => label4.Visible = false;
+            MethodInvoker vis = () => progressBar1.Visible = false;
             progressBar1.Invoke(vis);
             label4.Invoke(labelHide4);
             label5.Invoke(labelHide5);
@@ -615,7 +621,7 @@ namespace TranslFileWriter
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            MethodInvoker lblupd = new MethodInvoker(() => label5.Text = _st.Elapsed.Minutes.ToString() + @"m " + _st.Elapsed.Seconds.ToString() + @"s");
+            MethodInvoker lblupd = () => label5.Text = _st.Elapsed.Minutes.ToString() + @"m " + _st.Elapsed.Seconds.ToString() + @"s";
             label5.Invoke(lblupd);
             Application.DoEvents();
         }
