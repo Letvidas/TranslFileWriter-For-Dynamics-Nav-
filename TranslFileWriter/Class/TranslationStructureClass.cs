@@ -28,11 +28,11 @@ namespace TranslFileWriter.Class
             foreach (string item in Note2)
             {
                 a = false;
-                if (item.Contains("extension") && item.Contains('-'))
+                if (containsExtension(item) && item.Contains('-'))
                 {
                     string[] itemSplit = item.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
                     string[] itemSplit2 = itemSplit[1].Split("</");
-                    if (itemSplit2[0].Contains("extension") && itemSplit2[0].Contains('-'))
+                    if (containsExtension(itemSplit2[0]) && itemSplit2[0].Contains('-'))
                     {
                         itemSplit2[0] = SplitExtension(itemSplit2);
                     }
@@ -46,14 +46,22 @@ namespace TranslFileWriter.Class
             }
         }
 
+        private Boolean containsExtension(string item)
+        {
+            Boolean answer = item.Contains("TableExtension") || item.Contains("EnumExtension") ||
+                          item.Contains("ReportExtension") || item.Contains("PageExtension");
+            return answer;
+        }
+
+
         //returns splited line
         public string ReturnSplitedLine(string lineToSplit)
         {
-            if (lineToSplit.Contains("extension") && lineToSplit.Contains('-'))
+            if (containsExtension(lineToSplit) && lineToSplit.Contains('-'))
             {
                 string[] itemSplit = lineToSplit.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
                 string[] itemSplit2 = itemSplit[1].Split("</");
-                if (itemSplit2[0].Contains("extension") && itemSplit2[0].Contains('-'))
+                if (containsExtension(itemSplit2[0]) && itemSplit2[0].Contains('-'))
                 {
                     itemSplit2[0] = SplitExtension(itemSplit2);
                     lineToSplit = itemSplit2[0];

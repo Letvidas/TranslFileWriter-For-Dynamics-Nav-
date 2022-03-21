@@ -302,7 +302,8 @@ namespace TranslFileWriter
             string searchLine;
             int a = 0;
             int iterationStart = 0;
-            _writeTo.FileEnd.Clear();
+            string sourceline = "";
+                _writeTo.FileEnd.Clear();
             _writeTo.FileStart.Clear();
             //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
             //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
@@ -314,6 +315,10 @@ namespace TranslFileWriter
             label5.Invoke(labelShow5);
             foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
             {
+                if (line.Contains("<source"))
+                {
+                    sourceline = line;
+                }
                 if (line.Contains("<target"))
                 {
                     tempLine = line;
@@ -321,37 +326,44 @@ namespace TranslFileWriter
                 else if (line.Contains("<note from=\"Xliff Generator\""))
                 {
                     searchLine = line;
+                    searchLine = _writeTo.ReturnSplitedLine(searchLine);
+                    int counter = 0;
                     foreach (string srcLine in _writeTo.SearchNote2Parameters)
                     {
+                        
                         //if (SearchLine.Contains(SrcLine))
                         //{
                         //    MessageBox.Show(WriteTo.ReturnSplitedLine(SearchLine));
                         //    MessageBox.Show(SrcLine);
-                        if (_writeTo.ReturnSplitedLine(searchLine).Equals(srcLine))
+                        if (searchLine.Equals(srcLine))
                         {
-                            if (tempLine.Contains("state=\"translated\""))
+                            if (_writeTo.Source[counter] == sourceline)
                             {
-                                _writeTo.Target[a] = tempLine;
-                                break;
+                                if (tempLine.Contains("state=\"translated\""))
+                                {
+                                    _writeTo.Target[a] = tempLine;
+                                    break;
+                                }
+                                else if (tempLine.Contains("state=\"needs-translation\""))
+                                {
+                                    _writeTo.Target[a] = tempLine;
+                                    break;
+                                }
+                                else
+                                {
+                                    _writeTo.Target[a] = tempLine.Insert(17, " state=\"translated\"");
+                                    break;
+                                }
+                                // }
                             }
-                            else if (tempLine.Contains("state=\"needs-translation\""))
-                            {
-                                _writeTo.Target[a] = tempLine;
-                                break;
-                            }
-                            else
-                            {
-                                _writeTo.Target[a] = tempLine.Insert(17, " state=\"translated\"");
-                                break;
-                            }
-                            // }
                         }
                         a++;
                         if (a == _writeTo.SearchNote2Parameters.Count)
                         {
-                            File.AppendAllText("log.txt", searchLine + Environment.NewLine);
+                            File.AppendAllText("log.txt", line + Environment.NewLine);
                             //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
+                        counter++;
                     }
                     a = 0;
                 }
