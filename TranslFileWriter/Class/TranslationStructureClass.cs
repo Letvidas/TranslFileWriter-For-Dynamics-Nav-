@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace TranslFileWriter.Class
 {
@@ -94,7 +90,7 @@ namespace TranslFileWriter.Class
                     {
                         returnValue = returnValue + line;
                     }
-                    else if (count > 1)
+                    else
                     {
                         returnValue = returnValue + "-" + line;
                     }
