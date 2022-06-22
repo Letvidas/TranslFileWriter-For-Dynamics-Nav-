@@ -22,7 +22,7 @@ namespace TranslFileWriter
         private TranslationStructureClass _writeTo = new();
         private TranslationStructureClass _writeFrom = new();
         private int _count;
-        private Stopwatch _st;
+        private Stopwatch _stopWatch;
 
         private void WhereToWriteButton_Click(object sender, EventArgs e)
         {
@@ -192,6 +192,7 @@ namespace TranslFileWriter
         {
             //Read File which you want to change
             _count = 0;
+            //Itereation variable is needed to distinct different notes within txt file
             int iteration = 0;
             _writeFrom = new TranslationStructureClass();
             if (File.ReadAllLines(readFromTextBox.Text).Length > 13)
@@ -294,10 +295,11 @@ namespace TranslFileWriter
             int search2NoteParameterCount = 0;
             int iterationStart = 0;
             string sourceline = "";
-                _writeTo.FileEnd.Clear();
+
+            _writeTo.FileEnd.Clear();
             _writeTo.FileStart.Clear();
-            _st = new Stopwatch();
-            _st.Start();
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
             MethodInvoker labelShow5 = () => label5.Visible = true;
             MethodInvoker labelShow4 = () => label4.Visible = true;
             label4.Invoke(labelShow4);
@@ -345,9 +347,9 @@ namespace TranslFileWriter
                         search2NoteParameterCount++;
                         if (search2NoteParameterCount == _writeTo.SearchNote2Parameters.Count)
                         {
-                            File.AppendAllText("log.txt", _writeFrom.StartLine[countLinesForLog-1] + Environment.NewLine +
-                                                          _writeFrom.Source[countLinesForLog-1] + Environment.NewLine +
-                                                          _writeFrom.Target[countLinesForLog-1] + Environment.NewLine +
+                            File.AppendAllText("log.txt", _writeFrom.StartLine[countLinesForLog - 1] + Environment.NewLine +
+                                                          _writeFrom.Source[countLinesForLog - 1] + Environment.NewLine +
+                                                          _writeFrom.Target[countLinesForLog - 1] + Environment.NewLine +
                                                           line + Environment.NewLine + Environment.NewLine);
                         }
                         counter++;
@@ -374,17 +376,17 @@ namespace TranslFileWriter
                 {
                     _writeTo.FileEnd.Add(line);
                 }
-                MethodInvoker up = () => progressBar1.Value++;
-                progressBar1.Invoke(up);
+                MethodInvoker progressBarUp = () => progressBar1.Value++;
+                progressBar1.Invoke(progressBarUp);
             }
             MethodInvoker labelHide5 = () => label5.Visible = false;
             MethodInvoker labelHide4 = () => label4.Visible = false;
-            MethodInvoker vis = () => progressBar1.Visible = false;
-            progressBar1.Invoke(vis);
+            MethodInvoker progresBarVisibility = () => progressBar1.Visible = false;
+            progressBar1.Invoke(progresBarVisibility);
             label4.Invoke(labelHide4);
             label5.Invoke(labelHide5);
-            _st.Stop();
-            _st.Reset();
+            _stopWatch.Stop();
+            _stopWatch.Reset();
             timer1.Stop();
             if (File.Exists("log.txt"))
             {
@@ -419,8 +421,8 @@ namespace TranslFileWriter
             int iterationStart = 0;
             _writeTo.FileEnd.Clear();
             _writeTo.FileStart.Clear();
-            _st = new Stopwatch();
-            _st.Start();
+            _stopWatch = new Stopwatch();
+            _stopWatch.Start();
             MethodInvoker labelShow5 = () => label5.Visible = true;
             MethodInvoker labelShow4 = () => label4.Visible = true;
             label4.Invoke(labelShow4);
@@ -492,8 +494,8 @@ namespace TranslFileWriter
             progressBar1.Invoke(vis);
             label4.Invoke(labelHide4);
             label5.Invoke(labelHide5);
-            _st.Stop();
-            _st.Reset();
+            _stopWatch.Stop();
+            _stopWatch.Reset();
             timer1.Stop();
 
             if (File.Exists("log.txt"))
@@ -615,7 +617,7 @@ namespace TranslFileWriter
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            MethodInvoker lblupd = () => label5.Text = _st.Elapsed.Minutes.ToString() + @"m " + _st.Elapsed.Seconds.ToString() + @"s";
+            MethodInvoker lblupd = () => label5.Text = _stopWatch.Elapsed.Minutes.ToString() + @"m " + _stopWatch.Elapsed.Seconds.ToString() + @"s";
             label5.Invoke(lblupd);
             Application.DoEvents();
         }
