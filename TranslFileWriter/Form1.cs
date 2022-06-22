@@ -313,6 +313,7 @@ namespace TranslFileWriter
             MethodInvoker labelShow4 = () => label4.Visible = true;
             label4.Invoke(labelShow4);
             label5.Invoke(labelShow5);
+            var countLinesForLog = 0;
             foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
             {
                 if (line.Contains("<source"))
@@ -325,6 +326,7 @@ namespace TranslFileWriter
                 }
                 else if (line.Contains("<note from=\"Xliff Generator\""))
                 {
+                    countLinesForLog++;
                     searchLine = line;
                     searchLine = _writeTo.ReturnSplitedLine(searchLine);
                     int counter = 0;
@@ -360,7 +362,10 @@ namespace TranslFileWriter
                         a++;
                         if (a == _writeTo.SearchNote2Parameters.Count)
                         {
-                            File.AppendAllText("log.txt", line + Environment.NewLine);
+                            File.AppendAllText("log.txt", _writeFrom.StartLine[countLinesForLog-1] + Environment.NewLine +
+                                                          _writeFrom.Source[countLinesForLog-1] + Environment.NewLine +
+                                                          _writeFrom.Target[countLinesForLog-1] + Environment.NewLine +
+                                                          line + Environment.NewLine + Environment.NewLine);
                             //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
                         counter++;
