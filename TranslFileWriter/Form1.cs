@@ -101,8 +101,6 @@ namespace TranslFileWriter
                 {
                     WriteOptionToEnum();
                 }
-                //Write to new File 
-                //CreateNewFile(WriteTo,readFromTextBox.Text);
             }
             //If both files are written, but path is incorrect
             else
@@ -301,8 +299,6 @@ namespace TranslFileWriter
             string sourceline = "";
                 _writeTo.FileEnd.Clear();
             _writeTo.FileStart.Clear();
-            //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
-            //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
             _st = new Stopwatch();
             _st.Start();
             MethodInvoker labelShow5 = () => label5.Visible = true;
@@ -328,11 +324,6 @@ namespace TranslFileWriter
                     int counter = 0;
                     foreach (string srcLine in _writeTo.SearchNote2Parameters)
                     {
-                        
-                        //if (SearchLine.Contains(SrcLine))
-                        //{
-                        //    MessageBox.Show(WriteTo.ReturnSplitedLine(SearchLine));
-                        //    MessageBox.Show(SrcLine);
                         if (searchLine.Equals(srcLine))
                         {
                             if (_writeTo.Source[counter] == sourceline)
@@ -352,7 +343,6 @@ namespace TranslFileWriter
                                     _writeTo.Target[a] = tempLine.Insert(17, " state=\"translated\"");
                                     break;
                                 }
-                                // }
                             }
                         }
                         a++;
@@ -362,7 +352,6 @@ namespace TranslFileWriter
                                                           _writeFrom.Source[countLinesForLog-1] + Environment.NewLine +
                                                           _writeFrom.Target[countLinesForLog-1] + Environment.NewLine +
                                                           line + Environment.NewLine + Environment.NewLine);
-                            //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
                         counter++;
                     }
@@ -431,7 +420,6 @@ namespace TranslFileWriter
             int iterationStart = 0;
             _writeTo.FileEnd.Clear();
             _writeTo.FileStart.Clear();
-            //int LineCount = File.ReadAllLines(readFromTextBox.Text).Length;
             _st = new Stopwatch();
             _st.Start();
             MethodInvoker labelShow5 = () => label5.Visible = true;
@@ -471,7 +459,6 @@ namespace TranslFileWriter
                         if (a == _writeTo.Target.Count)
                         {
                             File.AppendAllText("log.txt", tempLine.TrimStart() + Environment.NewLine);
-                            //MessageBox.Show("This entry is not found:= " + TempLine);
                         }
                     }
                     a = 0;
@@ -549,7 +536,6 @@ namespace TranslFileWriter
                     targetString = targetString.Trim();
                     targetString = targetString.Replace("<target>", "");
                     targetString = targetString.Replace("</target>", "");
-                    //targetString = targetString.TrimStart();
                     string[] subTargetStrings = targetString.Split(",");
 
                     sourceString = _writeFrom.Source[linePos];
@@ -573,9 +559,6 @@ namespace TranslFileWriter
                                     }
                                     else if (_writeTo.Source[linePos2].Contains(sourceValue))
                                     {
-                                        //MessageBox.Show(subTargetStrings[sourceValuePos]);
-                                        //MessageBox.Show(WriteTo.Target[linePos2]);
-                                        //subTargetStrings[sourceValuePos].TrimStart()
 
                                         if (subSourceStrings[sourceValuePos] == " ")
                                         {
@@ -584,7 +567,6 @@ namespace TranslFileWriter
                                         else if (subSourceStrings[sourceValuePos] == "")
                                         {
                                             _writeTo.Target[linePos2] = _writeTo.Target[linePos2];
-                                            //WriteTo.Target[linePos2] = WriteTo.Target[linePos2].Replace("\"needs-translation\"/>", "\"translated\">" + " " + "</target>");
                                         }
                                         else
                                         {

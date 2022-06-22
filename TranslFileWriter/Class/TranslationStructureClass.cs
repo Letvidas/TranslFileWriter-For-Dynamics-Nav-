@@ -41,7 +41,7 @@ namespace TranslFileWriter.Class
                 }
             }
         }
-
+        //Check if contains extension
         private static Boolean ContainsExtension(string item)
         {
             Boolean answer = item.Contains("TableExtension") || item.Contains("EnumExtension") ||
