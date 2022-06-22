@@ -20,10 +20,10 @@ namespace TranslFileWriter.Class
         public void GetNote2Value()
         {
             SearchNote2Parameters.Clear();
-            Boolean a;
+            Boolean IsExtension;
             foreach (string item in Note2)
             {
-                a = false;
+                IsExtension = false;
                 if (ContainsExtension(item) && item.Contains('-'))
                 {
                     string[] itemSplit = item.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
@@ -33,9 +33,9 @@ namespace TranslFileWriter.Class
                         itemSplit2[0] = SplitExtension(itemSplit2);
                     }
                     SearchNote2Parameters.Add(itemSplit2[0]);
-                    a = true;
+                    IsExtension = true;
                 }
-                if (a == false)
+                if (IsExtension == false)
                 {
                     SearchNote2Parameters.Add(item);
                 }

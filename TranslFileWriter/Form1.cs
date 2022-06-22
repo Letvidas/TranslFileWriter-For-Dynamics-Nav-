@@ -94,7 +94,6 @@ namespace TranslFileWriter
                     Thread thread = new(ReadFromTranslationFileNote2);
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
-                    //ReadFromTranslationFileNote2();
                 }
                 //Write option Translations
                 if (checkBox2.Checked)
@@ -177,10 +176,6 @@ namespace TranslFileWriter
                     {
                         _writeTo.EndLine.Add(line);
                     }
-                    else
-                    {
-                        //MessageBox.Show(line);
-                    }
                 }
                 MessageBox.Show(@"Translation File Uploaded");
                 _writeTo.GetNote2Value();
@@ -253,11 +248,13 @@ namespace TranslFileWriter
         {
             MessageBox.Show(@"Create translated file");
             string fileName = Path.GetFileName(readPath);
-            SaveFileDialog saveFileDialog1 = new();
-            saveFileDialog1.FileName = fileName;
-            saveFileDialog1.Filter = @"txt files (*.txt)|*.txt|All files (*.*)|*.*";
-            saveFileDialog1.FilterIndex = 2;
-            saveFileDialog1.RestoreDirectory = true;
+            SaveFileDialog saveFileDialog1 = new()
+            {
+                FileName = fileName,
+                Filter = @"txt files (*.txt)|*.txt|All files (*.*)|*.*",
+                FilterIndex = 2,
+                RestoreDirectory = true
+            };
 
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -392,10 +389,12 @@ namespace TranslFileWriter
             if (File.Exists("log.txt"))
             {
                 MessageBox.Show(@"There are some translations that missed the target. Please save Log file");
-                SaveFileDialog newLog = new();
-                newLog.FileName = "log.txt";
-                newLog.Filter = @"(*.txt)|*.txt";
-                newLog.FilterIndex = 2;
+                SaveFileDialog newLog = new()
+                {
+                    FileName = "log.txt",
+                    Filter = @"(*.txt)|*.txt",
+                    FilterIndex = 2
+                };
                 if (newLog.ShowDialog() == DialogResult.OK)
                 {
                     StreamWriter writer = new(newLog.OpenFile(), Encoding.Default);
