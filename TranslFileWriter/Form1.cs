@@ -21,7 +21,7 @@ namespace TranslFileWriter
         private bool _read2Path;
         private TranslationStructureClass _writeTo = new();
         private TranslationStructureClass _writeFrom = new();
-        private int _count;
+        private int _progressBarMaximum;
         private Stopwatch _stopWatch;
 
         private void WhereToWriteButton_Click(object sender, EventArgs e)
@@ -38,7 +38,7 @@ namespace TranslFileWriter
 
         private void SetProgressBar()
         {
-            progressBar1.Maximum = _count;
+            progressBar1.Maximum = _progressBarMaximum;
             progressBar1.Minimum = 0;
             progressBar1.Value = 0;
             progressBar1.Visible = true;
@@ -132,8 +132,9 @@ namespace TranslFileWriter
         {
             //Read File which you want to change
             int iteration = 0;
+            int minimumLength = 13;
             _writeTo = new TranslationStructureClass();
-            if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > 13)
+            if (File.ReadAllLines(writeToTextBox.Text, Encoding.Default).Length > minimumLength)
             {
                 checkBox2.Enabled = false;
                 checkBox2.Checked = false;
@@ -188,14 +189,15 @@ namespace TranslFileWriter
             }
         }
 
+        //Read File which you want to change
         private void ReadPathBox2File()
         {
-            //Read File which you want to change
-            _count = 0;
+            int minimumLength = 13;
+            _progressBarMaximum = 0;
             //Itereation variable is needed to distinct different notes within txt file
             int iteration = 0;
             _writeFrom = new TranslationStructureClass();
-            if (File.ReadAllLines(readFromTextBox.Text).Length > 13)
+            if (File.ReadAllLines(readFromTextBox.Text).Length > minimumLength)
             {
                 foreach (string line in File.ReadAllLines(readFromTextBox.Text, Encoding.Default))
                 {
@@ -232,7 +234,7 @@ namespace TranslFileWriter
                     {
                         _writeFrom.EndLine.Add(line);
                     }
-                    _count++;
+                    _progressBarMaximum++;
                 }
                 _writeFrom.GetNote2Value();
                 MessageBox.Show(@"Translation Upload File Uploaded");
