@@ -260,20 +260,20 @@ namespace TranslFileWriter
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 StreamWriter writer = new(saveFileDialog1.OpenFile(), Encoding.Default);
-                int iter = 0;
+                int iteration = 0;
                 foreach (string item in writeTo.FileStart)
                 {
                     writer.WriteLine(item);
                 }
                 foreach (string unused in writeTo.StartLine)
                 {
-                    writer.WriteLine(writeTo.StartLine[iter]);
-                    writer.WriteLine(writeTo.Source[iter]);
-                    writer.WriteLine(writeTo.Target[iter]);
-                    writer.WriteLine(writeTo.Note1[iter]);
-                    writer.WriteLine(writeTo.Note2[iter]);
-                    writer.WriteLine(writeTo.EndLine[iter]);
-                    iter++;
+                    writer.WriteLine(writeTo.StartLine[iteration]);
+                    writer.WriteLine(writeTo.Source[iteration]);
+                    writer.WriteLine(writeTo.Target[iteration]);
+                    writer.WriteLine(writeTo.Note1[iteration]);
+                    writer.WriteLine(writeTo.Note2[iteration]);
+                    writer.WriteLine(writeTo.EndLine[iteration]);
+                    iteration++;
                 }
                 foreach (string item in writeTo.FileEnd)
                 {
@@ -484,14 +484,14 @@ namespace TranslFileWriter
                 {
                     _writeTo.FileEnd.Add(line);
                 }
-                MethodInvoker up = () => progressBar1.Value++;
-                progressBar1.Invoke(up);
+                MethodInvoker progressBarUp = () => progressBar1.Value++;
+                progressBar1.Invoke(progressBarUp);
             }
 
             MethodInvoker labelHide5 = () => label5.Visible = false;
             MethodInvoker labelHide4 = () => label4.Visible = false;
-            MethodInvoker vis = () => progressBar1.Visible = false;
-            progressBar1.Invoke(vis);
+            MethodInvoker progressBarVisible = () => progressBar1.Visible = false;
+            progressBar1.Invoke(progressBarVisible);
             label4.Invoke(labelHide4);
             label5.Invoke(labelHide5);
             _stopWatch.Stop();
@@ -530,7 +530,6 @@ namespace TranslFileWriter
             string sourceString;
             foreach (string line in _writeFrom.Note2)
             {
-
                 if (line.Contains("OptionCaption"))
                 {
                     targetString = _writeFrom.Target[linePos];
@@ -578,14 +577,12 @@ namespace TranslFileWriter
                                         break;
                                     }
                                 }
-
                                 linePos2++;
                             }
                             sourceValuePos++;
                         }
                     }
                 }
-
                 linePos++;
             }
         }
@@ -617,8 +614,8 @@ namespace TranslFileWriter
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            MethodInvoker lblupd = () => label5.Text = _stopWatch.Elapsed.Minutes.ToString() + @"m " + _stopWatch.Elapsed.Seconds.ToString() + @"s";
-            label5.Invoke(lblupd);
+            MethodInvoker labelUpdate = () => label5.Text = _stopWatch.Elapsed.Minutes.ToString() + @"m " + _stopWatch.Elapsed.Seconds.ToString() + @"s";
+            label5.Invoke(labelUpdate);
             Application.DoEvents();
         }
 
