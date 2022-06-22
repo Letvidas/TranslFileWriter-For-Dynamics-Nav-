@@ -291,7 +291,7 @@ namespace TranslFileWriter
             File.Delete("log.txt");
             string tempLine = "";
             string searchLine;
-            int a = 0;
+            int search2NoteParameterCount = 0;
             int iterationStart = 0;
             string sourceline = "";
                 _writeTo.FileEnd.Clear();
@@ -327,23 +327,23 @@ namespace TranslFileWriter
                             {
                                 if (tempLine.Contains("state=\"translated\""))
                                 {
-                                    _writeTo.Target[a] = tempLine;
+                                    _writeTo.Target[search2NoteParameterCount] = tempLine;
                                     break;
                                 }
                                 else if (tempLine.Contains("state=\"needs-translation\""))
                                 {
-                                    _writeTo.Target[a] = tempLine;
+                                    _writeTo.Target[search2NoteParameterCount] = tempLine;
                                     break;
                                 }
                                 else
                                 {
-                                    _writeTo.Target[a] = tempLine.Insert(17, " state=\"translated\"");
+                                    _writeTo.Target[search2NoteParameterCount] = tempLine.Insert(17, " state=\"translated\"");
                                     break;
                                 }
                             }
                         }
-                        a++;
-                        if (a == _writeTo.SearchNote2Parameters.Count)
+                        search2NoteParameterCount++;
+                        if (search2NoteParameterCount == _writeTo.SearchNote2Parameters.Count)
                         {
                             File.AppendAllText("log.txt", _writeFrom.StartLine[countLinesForLog-1] + Environment.NewLine +
                                                           _writeFrom.Source[countLinesForLog-1] + Environment.NewLine +
@@ -352,7 +352,7 @@ namespace TranslFileWriter
                         }
                         counter++;
                     }
-                    a = 0;
+                    search2NoteParameterCount = 0;
                 }
                 else if (iterationStart < 5)
                 {
@@ -415,7 +415,7 @@ namespace TranslFileWriter
         {
             File.Delete("log.txt");
             string tempLine = "";
-            int a = 0;
+            int writeToTargetCount = 0;
             int iterationStart = 0;
             _writeTo.FileEnd.Clear();
             _writeTo.FileStart.Clear();
@@ -440,27 +440,27 @@ namespace TranslFileWriter
                         {
                             if (line.Contains("state=\"translated\""))
                             {
-                                _writeTo.Target[a] = line;
+                                _writeTo.Target[writeToTargetCount] = line;
                                 break;
                             }
                             else if (line.Contains("state=\"needs-translation\""))
                             {
-                                _writeTo.Target[a] = line;
+                                _writeTo.Target[writeToTargetCount] = line;
                                 break;
                             }
                             else
                             {
-                                _writeTo.Target[a] = line.Insert(17, " state=\"translated\"");
+                                _writeTo.Target[writeToTargetCount] = line.Insert(17, " state=\"translated\"");
                                 break;
                             }
                         }
-                        a++;
-                        if (a == _writeTo.Target.Count)
+                        writeToTargetCount++;
+                        if (writeToTargetCount == _writeTo.Target.Count)
                         {
                             File.AppendAllText("log.txt", tempLine.TrimStart() + Environment.NewLine);
                         }
                     }
-                    a = 0;
+                    writeToTargetCount = 0;
                 }
                 else if (iterationStart < 5)
                 {
