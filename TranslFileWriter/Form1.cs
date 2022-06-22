@@ -26,15 +26,13 @@ namespace TranslFileWriter
 
         private void WhereToWriteButton_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new())
-            {
-                ofd.Filter = @"XLIFF (*.xlf)|*.xlf|All files (*.*)|*.*";
+            using OpenFileDialog ofd = new();
+            ofd.Filter = @"XLIFF (*.xlf)|*.xlf|All files (*.*)|*.*";
 
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    writeToTextBox.Text = ofd.FileName;
-                    ReadPathBox1File();
-                }
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                writeToTextBox.Text = ofd.FileName;
+                ReadPathBox1File();
             }
         }
 
@@ -47,15 +45,13 @@ namespace TranslFileWriter
         }
         private void WhereToReadFromButton_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog ofd = new())
-            {
-                ofd.Filter = @"XLIFF (*.xlf)|*.xlf|All files (*.*)|*.*";
+            using OpenFileDialog ofd = new();
+            ofd.Filter = @"XLIFF (*.xlf)|*.xlf|All files (*.*)|*.*";
 
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    readFromTextBox.Text = ofd.FileName;
-                    ReadPathBox2File();
-                }
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                readFromTextBox.Text = ofd.FileName;
+                ReadPathBox2File();
             }
         }
 
@@ -81,9 +77,9 @@ namespace TranslFileWriter
                     SetProgressBar();
                     timer1.Interval = 1000;
                     timer1.Enabled = true;
-                    timer1.Tick += timer1_Tick;
+                    timer1.Tick += Timer1_Tick;
                     timer1.Start();
-                    Thread thread = new Thread(ReadFromTranslationFile);
+                    Thread thread = new(ReadFromTranslationFile);
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
                 }
@@ -93,9 +89,9 @@ namespace TranslFileWriter
                     SetProgressBar();
                     timer1.Interval = 1000;
                     timer1.Enabled = true;
-                    timer1.Tick += timer1_Tick;
+                    timer1.Tick += Timer1_Tick;
                     timer1.Start();
-                    Thread thread = new Thread(ReadFromTranslationFileNote2);
+                    Thread thread = new(ReadFromTranslationFileNote2);
                     thread.SetApartmentState(ApartmentState.STA);
                     thread.Start();
                     //ReadFromTranslationFileNote2();
@@ -159,7 +155,7 @@ namespace TranslFileWriter
                     //If starting file has <target then save value
                     else if (line.Contains("<target"))
                     {
-                        _writeTo.Target[_writeTo.Target.Count - 1] = line;
+                        _writeTo.Target[^1] = line;
                     }
                     else if (line.Contains("<source>"))
                     {
@@ -173,9 +169,9 @@ namespace TranslFileWriter
                     else if (line.Contains("<note") && iteration == 1)
                     {
                         _writeTo.Note2.Add(line);
-                        if (_writeTo.Note2[_writeTo.Note2.Count - 1].Contains("Enum"))
+                        if (_writeTo.Note2[^1].Contains("Enum"))
                         {
-                            _writeTo.Note1[_writeTo.Note1.Count - 1] = _writeTo.Note1[_writeTo.Note1.Count - 1].Replace("\"/>", "\"></note>");
+                            _writeTo.Note1[^1] = _writeTo.Note1[^1].Replace("\"/>", "\"></note>");
                         }
                         iteration = 0;
                     }
@@ -623,12 +619,12 @@ namespace TranslFileWriter
             _read2Path = false;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
             CreateNewFile(_writeTo, readFromTextBox.Text);
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        private void CheckBox3_CheckedChanged(object sender, EventArgs e)
         {
             _writeFrom.Full = checkBox3.Checked;
             _writeTo.Full = checkBox3.Checked;
@@ -636,7 +632,7 @@ namespace TranslFileWriter
             _writeTo.GetNote2Value();
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             MethodInvoker lblupd = () => label5.Text = _st.Elapsed.Minutes.ToString() + @"m " + _st.Elapsed.Seconds.ToString() + @"s";
             label5.Invoke(lblupd);

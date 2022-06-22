@@ -24,11 +24,11 @@ namespace TranslFileWriter.Class
             foreach (string item in Note2)
             {
                 a = false;
-                if (containsExtension(item) && item.Contains('-'))
+                if (ContainsExtension(item) && item.Contains('-'))
                 {
                     string[] itemSplit = item.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
                     string[] itemSplit2 = itemSplit[1].Split("</");
-                    if (containsExtension(itemSplit2[0]) && itemSplit2[0].Contains('-'))
+                    if (ContainsExtension(itemSplit2[0]) && itemSplit2[0].Contains('-'))
                     {
                         itemSplit2[0] = SplitExtension(itemSplit2);
                     }
@@ -42,7 +42,7 @@ namespace TranslFileWriter.Class
             }
         }
 
-        private Boolean containsExtension(string item)
+        private static Boolean ContainsExtension(string item)
         {
             Boolean answer = item.Contains("TableExtension") || item.Contains("EnumExtension") ||
                           item.Contains("ReportExtension") || item.Contains("PageExtension");
@@ -53,11 +53,11 @@ namespace TranslFileWriter.Class
         //returns splited line
         public string ReturnSplitedLine(string lineToSplit)
         {
-            if (containsExtension(lineToSplit) && lineToSplit.Contains('-'))
+            if (ContainsExtension(lineToSplit) && lineToSplit.Contains('-'))
             {
                 string[] itemSplit = lineToSplit.Split("<note from=\"Xliff Generator\" annotates=\"general\" priority=\"3\">");
                 string[] itemSplit2 = itemSplit[1].Split("</");
-                if (containsExtension(itemSplit2[0]) && itemSplit2[0].Contains('-'))
+                if (ContainsExtension(itemSplit2[0]) && itemSplit2[0].Contains('-'))
                 {
                     itemSplit2[0] = SplitExtension(itemSplit2);
                     lineToSplit = itemSplit2[0];
@@ -88,16 +88,16 @@ namespace TranslFileWriter.Class
                 {
                     if (count == 1)
                     {
-                        returnValue = returnValue + line;
+                        returnValue += line;
                     }
                     else
                     {
-                        returnValue = returnValue + "-" + line;
+                        returnValue += "-" + line;
                     }
                 }
                 count++;
             }
-            returnValue = returnValue + extensiontype[0];
+            returnValue += extensiontype[0];
             return returnValue;
         }
     }

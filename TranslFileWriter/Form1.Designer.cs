@@ -161,7 +161,7 @@ namespace TranslFileWriter
             this.button1.TabIndex = 11;
             this.button1.Text = "Create Trans. File";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // checkBox3
             // 
@@ -172,7 +172,7 @@ namespace TranslFileWriter
             this.checkBox3.TabIndex = 12;
             this.checkBox3.Text = "Use if Extension ID\'s match";
             this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.CheckBox3_CheckedChanged);
             // 
             // progressBar1
             // 
@@ -185,7 +185,7 @@ namespace TranslFileWriter
             // timer1
             // 
             this.timer1.Interval = 1000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
             // label4
             // 
